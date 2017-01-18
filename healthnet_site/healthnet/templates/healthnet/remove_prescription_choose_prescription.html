@@ -1,0 +1,41 @@
+{% extends 'healthnet/base.html' %}
+
+{% block main_content %}
+
+{% include "healthnet/header.html" %}
+
+<div id="remove_prescription_choose_prescription_container" class="panel panel-info col-md-6">
+    <div id="remove_prescription_choose_prescription_header" class="panel-heading">
+        <h1 class="panel-title">Remove Prescription</h1>
+    </div>
+    <br/>
+    <div id="remove_prescription_choose_prescription_form">
+        <form method="post">
+            {% csrf_token %}
+            {% if prescription_list %}
+                    {% csrf_token %}
+                    <table border="0" class="center">
+                        <tr>
+                            <td>
+                                <label>Prescription:</label>
+                            </td>
+                            <td>
+                                <select name="prescription">
+                                    <option>Select a prescription</option>
+                                        {% for prescription in prescription_list %}
+                                            <option value="{{prescription.id}}">{{ prescription }}</option>
+                                        {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+            <input class="btn btn-info" type="submit" name="submit_select_prescription" value="Submit">
+            {% else %}
+                <h3>No prescriptions for this patient.</h3>
+            {% endif %}
+            <input class="btn btn-default" type="submit" name="back_select_prescription" value="Back">
+        </form>
+    </div>
+</div>
+
+{% endblock %}

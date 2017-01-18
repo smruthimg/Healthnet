@@ -1,0 +1,24 @@
+{% extends 'healthnet/base.html' %}
+
+{% block main_content %}
+
+{% include "healthnet/header.html" %}
+
+<div id="create_appointment_container" class="panel panel-info col-md-6">
+    <div id="create_appointment_header" class="panel-heading"><h1 class="panel-title"> Test Results </h1></div>
+    <br/>
+
+    <form id="test_results_form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+
+
+            {{ form.as_p }}
+        <div id="test_result_button">
+            <input class="btn btn-info" name="update" type="submit">
+            <a href="/healthnet/update_patient_medical/{{ patient_id }}"><input class="btn btn-default" type="button" name="back" value="Cancel"></a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'healthnet/base.html' %}
+
+{% block main_content %}
+
+{% include "healthnet/header.html" %}
+
+<div id="hospital_admin_view_prescription_statistics_select_date_container" class="panel panel-info col-md-6">
+    <div id="hospital_admin_view_prescription_statistics_select_date_header" class="panel-heading">
+        <h1 class="panel-title">Select a timeframe</h1>
+    </div>
+    <br/>
+    <div id="hospital_admin_view_prescription_statistics_select_date_form">
+        <form method="post">
+            {% csrf_token %}
+            <ul id="hospital_admin_view_prescription_statistics_select_date_form_list">
+                <li>Start Date: <input type="datetime-local" name="start_date"></li>
+                <li>End Date: <input type="datetime-local" name="end_date"></li>
+            </ul>
+
+            <hr>
+
+            <div id="hospital_admin_view_system_prescription_header">
+                <h1>Select a medication and doctor</h1>
+                <p>
+                    Select a medication and doctor you wish to see the statistical breakdown for.
+                    If you wish to only do one, leave the other field blank.
+                </p>
+            </div>
+
+            <div id="hospital_admin_view_system_prescription_information">
+                <table border="0" class="center">
+                    <tr>
+                        <td>
+                            <label>Medication:</label>
+                        </td>
+                        <td>
+                            <select name="medication">
+                                <option>Select a medication</option>
+                                {% if medication_list %}
+                                    {% for medication in medication_list %}
+                                        <option value="{{medication}}">{{ medication }}</option>
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+
+                <table border="0" class="center">
+                    <tr>
+                        <td>
+                            <label>Doctor:</label>
+                        </td>
+                        <td>
+                            <select name="doctor">
+                                <option>Select a doctor</option>
+                                {% if doctor_list %}
+                                    {% for doctor in doctor_list %}
+                                        <option value="{{doctor}}">{{ doctor }}</option>
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <input class="btn btn-info" type="submit" name="submit" value="Submit">
+            <input class="btn btn-default" type="submit" name="back_choose_date_and_type" value="Back">
+        </form>
+    </div>
+</div>
+
+{% endblock %}

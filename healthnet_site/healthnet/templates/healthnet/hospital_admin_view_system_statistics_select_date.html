@@ -1,0 +1,22 @@
+{% extends 'healthnet/base.html' %}
+
+{% block main_content %}
+
+{% include "healthnet/header.html" %}
+
+<div id="hospital_admin_view_system_statistics_select_date_container" class="panel panel-info col-md-6">
+    <div id="hospital_admin_view_system_statistics_select_date_header" class="panel-heading">
+        <h1 class="panel-title">Select a timeframe</h1>
+    </div>
+    <br/>
+    <div id="hospital_admin_view_system_statistics_select_date_form">
+        <form method="post">
+            {% csrf_token %}
+            {{ timeframe_form.as_p }}
+            <input class="btn btn-info" type="submit" name="submit" value="Submit">
+            <input class="btn btn-default" type="submit" name="back-select_date" value="Back">
+        </form>
+    </div>
+</div>
+
+{% endblock %}

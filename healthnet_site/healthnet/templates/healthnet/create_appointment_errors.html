@@ -1,0 +1,22 @@
+{% extends 'healthnet/base.html' %}
+
+{% block main_content %}
+
+{% include "healthnet/header.html" %}
+
+<div id="create_appointment_errors_container" class="panel panel-info col-md-6">
+    <div id="create_appointment_errors_header" class="panel-heading">
+        <h1 class="panel-title">Create Appointment Failure</h1>
+    </div>
+    <br/>
+    <div id="create_appointment_errors_information">
+        <h3>One or more fields was left blank.</h3>
+
+        <form method="post">
+            {% csrf_token %}
+            <input class="btn btn-default" type="submit" name="back" value="Back">
+        </form>
+    </div>
+</div>
+
+{% endblock %}

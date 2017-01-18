@@ -1,0 +1,112 @@
+{% extends 'healthnet/base.html' %}
+
+{% block main_content %}
+
+{% include "healthnet/header.html" %}
+
+<div id="hospital_admin_view_logs_choose_filters_container" class="panel panel-info col-md-6">
+    <div id="hospital_admin_view_logs_choose_filters_header" class="panel-heading">
+        <h1 class="panel-title">Choose Filters</h1>
+        <p>
+            {% if date != '' %}
+            NOTE: Make sure you enter both a starting date and an ending date.
+            {% endif %}
+        </p>
+    </div>
+    <br/>
+    <div id="hospital_admin_view_logs_choose_filters_form">
+        <form method="post">
+            {% csrf_token %}
+
+            {% if date != '' %}
+                Start Date: <input type="datetime-local" name="start_date"><br>
+                End Date: <input type="datetime-local" name="end_date"><br>
+            {% endif %}
+
+            <table border="0" class="center">
+                {% if user_name != '' %}
+                <tr>
+                    <td>
+                        <label>Username:</label>
+                    </td>
+                    <td>
+                        <select name="user_name">
+                            <option>Select a username</option>
+                            {% if user_list %}
+                                {% for user in user_list %}
+                                    <option value="{{user.username}}">{{ user }}</option>
+                                {% endfor %}
+                            {% endif %}
+                        </select>
+                    </td>
+                </tr>
+                {% endif %}
+            </table>
+
+            <table border="0" class="center">
+                {% if user_type != '' %}
+                <tr>
+                    <td>
+                        <label>User Type:</label>
+                    </td>
+                    <td>
+                        <select name="user_type">
+                            <option>Select a user type</option>
+                            {% if user_type_list %}
+                                {% for user_type in user_type_list %}
+                                    <option value="{{user_type}}">{{ user_type }}</option>
+                                {% endfor %}
+                            {% endif %}
+                        </select>
+                    </td>
+                </tr>
+                {% endif %}
+            </table>
+
+            <table border="0" class="center">
+                {% if action != '' %}
+                <tr>
+                    <td>
+                        <label>Action:</label>
+                    </td>
+                    <td>
+                        <select name="action">
+                            <option>Select an action</option>
+                            {% if action_list %}
+                                {% for action in action_list %}
+                                    <option value="{{action}}">{{ action }}</option>
+                                {% endfor %}
+                            {% endif %}
+                        </select>
+                    </td>
+                </tr>
+                {% endif %}
+            </table>
+
+            <table border="0" class="center">
+                {% if hospital != '' %}
+                <tr>
+                    <td>
+                        <label>Hospital:</label>
+                    </td>
+                    <td>
+                        <select name="hospital">
+                            <option>Select a hospital</option>
+                            {% if hospital_list %}
+                                {% for hospital in hospital_list %}
+                                    <option value="{{hospital}}">{{ hospital }}</option>
+                                {% endfor %}
+                            {% endif %}
+                        </select>
+                    </td>
+                </tr>
+                {% endif %}
+            </table>
+            <br/>
+            <input class="btn btn-info" type="submit" name="submit_choose" value="Submit">
+            <input class="btn btn-default" type="submit" name="back_choose" value="Back">
+        </form>
+    </div>
+</div>
+
+{% endblock %}

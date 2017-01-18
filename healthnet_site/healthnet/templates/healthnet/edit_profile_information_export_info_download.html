@@ -1,0 +1,24 @@
+{% extends 'healthnet/base.html' %}
+
+{% block main_content %}
+
+{% include "healthnet/header.html" %}
+
+<div id="edit_profile_information_export_info_download_container" class="panel panel-info col-md-6">
+    <div id="edit_profile_information_export_info_download_header" class="panel-heading">
+        <h1 class="panel-title">Download Information</h1>
+    </div>
+    <br/>
+    <div id="edit_profile_information_export_info_download_information">
+        <h3>Your file is being generated...</h3>
+    </div>
+
+    <div id="edit_profile_information_export_info_download_form">
+        <form method="post">
+            {% csrf_token %}
+            <input class="btn btn-info" type="submit" name="continue-download" value="Continue">
+        </form>
+    </div>
+</div>
+
+{% endblock %}

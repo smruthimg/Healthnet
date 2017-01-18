@@ -1,0 +1,160 @@
+/*
+	This is a basic stylesheet for the django-postman application.
+	Called from templates/postman/base.html.
+	Make your own design in <settings.STATIC_ROOT>/postman/css/postman.css
+*/
+
+#table-color{
+  background-color: #fcf8e3;
+}
+
+.required input{
+    border-radius: 4px;
+}
+
+.required{
+    text-align:left;
+    width: 200px;
+}
+
+.info th a{
+    margin-left:80px;
+}
+
+.panel-info .panel-heading {
+    margin-left: -20px;
+    margin-right: -20px;
+    margin-top: -20px;
+}
+
+#id_body{
+    float:left;
+    border-radius: 4px;
+}
+
+#postman_menu.tabs {
+    padding-left: 30%
+}
+#postman {
+    width:55%;
+    opacity:0.8;
+    text-align: center;
+    font-weight: normal;
+    color: black;
+    margin-top:20px;
+    margin-left:25%;
+    margin-bottom: 20px;
+    padding:20px;
+    background-color: #ffffff;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+#postman a {
+    color: black;
+    align: center;
+}
+#postman.form {
+    text-align: center;
+    background-color: dodgerblue;
+    font-weight: normal;
+    color: black;
+}
+
+#pm_messages{
+      background-color: #f9f9f9;
+      vertical-align: bottom;
+      border-bottom: 2px solid #dddddd;
+}
+.pm_message.pm_deleted {
+ text-decoration: line-through;
+ text-align: center;
+}
+.pm_message.pm_deleted .pm_body{
+ display: none;
+ text-align: center;
+}
+.pm_message.pm_archived {
+ font-style: italic;
+ color: grey;
+ text-align: center;
+}
+.pm_message.pm_unread .pm_subject {
+ font-weight: bolder;
+ text-align: center;
+}
+.pm_message.pm_pending .pm_header {
+ background-color: #FFC;
+ text-align: center;
+}
+.pm_message.pm_rejected .pm_header {
+ background-color: #FDD;
+ text-align: center;
+}
+.errorlist {
+    list-style-type: none;
+    position: relative;
+    float: right;
+    color:red;
+}
+.error input, .error select {
+    border: 2px red solid;
+}
+
+/**
+ * Tabs
+ */
+.tabs {
+	display: flex;
+	flex-wrap: wrap; // make sure it wraps
+	text-align: center;
+}
+.tabs label {
+	order: 1; // Put the labels first
+	display: block;
+	padding: 1rem 2rem;
+	margin-right: 0.2rem;
+	cursor: pointer;
+  background: rgba(0, 0, 0, 0.51);
+  color: white;
+  font-weight: bold;
+  transition: background ease 0.2s;
+  text-align: center;
+}
+.tabs .tab {
+  order: 99; // Put the tabs last
+  flex-grow: 1;
+	width: 100%;
+	display: none;
+  padding: 1rem;
+  background: #fff;
+  text-align: center;
+}
+.tabs input[type="radio"] {
+	position: absolute;
+	opacity: 0;
+	text-align: center;
+}
+.tabs input[type="radio"]:checked + label {
+	background: #022a50;
+	text-align: center;
+}
+.tabs input[type="radio"]:checked + label + .tab {
+	display: block;
+	text-align: center;
+}
+
+@media (max-width: 45em) {
+  .tabs .tab,
+  .tabs label {
+    order: initial;
+    text-align: center;
+  }
+  .tabs label {
+    width: 100%;
+    margin-right: 0;
+    margin-top: 0.2rem;
+    text-align: center;
+  }
+}

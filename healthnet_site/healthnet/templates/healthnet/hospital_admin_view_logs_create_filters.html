@@ -1,0 +1,35 @@
+{% extends 'healthnet/base.html' %}
+
+{% block main_content %}
+
+{% include "healthnet/header.html" %}
+
+<div id="hospital_admin_view_logs_create_filters_container" class="panel panel-info col-md-6">
+    <div id="hospital_admin_view_logs_create_filters_header" class="panel-heading">
+        <h1 class="panel-title">Create Filters</h1>
+        <p>
+            Select the types of filters you want.
+            "Date" will allow you to select a start date and an end date and display all actions occurring between those dates.
+            "Username" will allow you to enter a username and will display all of the actions done on or by that username.
+            "User Type" will allow you to select a user type (patient, nurse, doctor, admin) and will display all of the actions done by that user type.
+            "Action" will allow you to select a specific action (logging in, logging out, creating an appointment, etc.) and will display all of the actions of that type.
+            "Hospital" will allow you to select a specific hospital and will display all of the actions at that hospital.
+            Checking multiple filters will allow you to apply multiple filters.
+        </p>
+    </div>
+    <br/>
+    <div id="hospital_admin_view_logs_create_filters_form">
+        <form method="post">
+            {% csrf_token %}
+            <input type="checkbox" name="date" value="Date"> Date <br>
+            <input type="checkbox" name="username" value="Username"> Username <br>
+            <input type="checkbox" name="user_type" value="User Type"> User Type <br>
+            <input type="checkbox" name="action" value="Action"> Action <br>
+            <input type="checkbox" name="hospital" value="Hospital"> Hospital <br><br>
+            <input class="btn btn-info" type="submit" name="submit_create" value="Submit">
+            <input class="btn btn-default" type="submit" name="back_create" value="Back">
+        </form>
+    </div>
+</div>
+
+{% endblock %}

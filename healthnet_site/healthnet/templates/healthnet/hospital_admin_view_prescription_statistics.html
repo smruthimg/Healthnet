@@ -1,0 +1,46 @@
+{% extends 'healthnet/base.html' %}
+
+{% block main_content %}
+
+{% include "healthnet/header.html" %}
+
+<div id="hospital_admin_view_prescription_statistics_container" class="panel panel-info col-md-6">
+    <div id="hospital_admin_view_prescription_statistics_header" class="panel-heading">
+        <h1 class="panel-title">Prescription Statistics</h1>
+    </div>
+    <br/>
+    <div id="hospital_admin_view_prescription_statistics_information">
+        <h3>Displaying information from: {{start_date}} to {{end_date}}</h3>
+
+        <h3>Medication Information</h3>
+
+        <p>
+            {% if number_of_times_medication_prescribed %}
+                {{medication}} was prescribed {{number_of_times_medication_prescribed}} time(s) at {{hospital}}.
+            {% else %}
+                No number of times medication was prescribed.
+            {% endif %}
+        </p>
+
+        <hr>
+
+        <h3>Doctor Information</h3>
+
+        <p>
+            {% if medications_prescribed_by_doctor %}
+                {% for medication in medications_prescribed_by_doctor %}
+                    {{doctor}} prescribed {{medication}} to {{medication.patient}} on {{medication.date_prescribed}}
+                {% endfor %}
+            {% else %}
+                No medications prescribed by doctor.
+            {% endif %}
+        </p>
+
+        <form method="post">
+            {% csrf_token %}
+            <input class="btn btn-default" type="submit" name="back_view_prescriptions" value="Back">
+        </form>
+    </div>
+</div>
+
+{% endblock %}

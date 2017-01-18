@@ -1,0 +1,21 @@
+{% extends 'healthnet/base.html' %}
+
+{% block main_content %}
+
+{% include "healthnet/header.html" %}
+
+<div id="hospital_admin_create_user_failure_container" class="panel panel-info col-md-6">
+    <div id="hospital_admin_create_user_failure_header" class="panel-heading">
+        <h1 class="panel-title">User Creation Failed</h1>
+        <h2>One or more fields were not filled in.</h2>
+    </div>
+    <br/>
+    <div id="hospital_admin_create_user_failure_back_button">
+        <form method="post">
+            {% csrf_token %}
+            <input class="btn btn-default" type="submit" name="back" value="Back">
+        </form>
+    </div>
+</div>
+
+{% endblock %}

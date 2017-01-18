@@ -1,0 +1,49 @@
+{% extends 'healthnet/base.html' %}
+
+{% block main_content %}
+
+{% include "healthnet/header.html" %}
+
+<div id="edit_profile_information_edit_container" class="panel panel-info col-md-6">
+    <div id="edit_profile_information_edit_header" class="panel-heading">
+        <h1 class="panel-title">Edit Profile Information</h1>
+    </div>
+    <br/>
+    <div id="edit_profile_information_edit_form">
+        <form method="post">
+            {% csrf_token %}
+            <ul id="edit_profile_information_edit_form_list">
+                <li>New Email: <input type="email" name="new_email" value="{{user.email}}"></li><br>
+                <li>New Contact Number: <input type="number" name="new_contact_number" value="{{patient.contact_number}}"></li><br>
+                <li>New Emergency Contact Number: <input type="number" name="new_emergency_contact_number" value="{{patient.emergency_contact_number}}"></li><br>
+                <li>New Address: <input type="text" name="new_address" value="{{patient.address}}"></li><br>
+                <li>New City: <input type="text" name="new_city" value="{{patient.city}}"></li><br>
+                <li>New Zipcode: <input type="number" name="new_zipcode" value="{{patient.zipcode}}"></li><br>
+            </ul>
+
+            <table border="0" class="center">
+                {% if state_choices %}
+                <tr>
+                    <td>
+                        <label>New State:</label>
+                    </td>
+                    <td>
+                        <select name="new_state">
+                            <option>{{patient.state}}</option>
+                                {% for state in state_choices %}
+                                    <option value="{{state}}">{{ state }}</option>
+                                {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+                {% endif %}
+            </table>
+        <div id="edit_profile_button1">
+            <input class="btn btn-default" type="submit" name="back" value="Back">
+            <input class="btn btn-info" type="submit" name="submit" value="Submit">
+        </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

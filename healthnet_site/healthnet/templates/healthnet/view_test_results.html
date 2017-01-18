@@ -1,0 +1,71 @@
+{% extends 'healthnet/base.html' %}
+
+{% block main_content %}
+
+{% include "healthnet/header.html" %}
+
+<div id="test_results_container" class="panel panel-info col-md-6">
+    <div id="test_results_header" class="panel-heading"><h1 class="panel-title"> Test Results </h1></div>
+    <br/>
+    <form id="view_test_results_form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+        <table class="table table-bordered table-hover" border="2">
+     <tr>
+            <th>Test Name</th>
+            <th>Test Result</th>
+            <th>Doctor Comments</th>
+            <th>Attachment</th>
+            <th>Released</th>
+         {% if user_type == "doctor"  %}
+            <th>Action </th>
+            {%endif%}
+
+        </tr>
+
+    {% for object in testresults %}
+            {% with b=1 %}
+				{% endwith %}
+        {% if object.patient == patient %}
+
+            <tr class="warning">
+                <td><label name="name" value="{{object.name}}">{{object.name}}</label></td>
+                <td><label name="results" value="{{object.results}}">{{object.results}}</label></td>
+                <td><label name="comments" value="{{object.comments}}">{{object.comments}}</label></td>
+
+                <td><a href="{% url 'getAttachment' object.id %}" width="100" target="_blank"> File </a> </td>
+                {% if object.released == True  %}
+                <td><label  name="released" >Yes</label></td>
+                {% if user_type == "doctor"  %}
+                <td><label>Released </label></td>
+                {%endif%}
+                {% else %}
+                <td><label name="released" >No</label></td>
+                {% if user_type == "doctor"  %}
+
+
+
+                <td><p> <a href="{% url 'release_results' object.id %}">Release</a> </p></td>
+
+
+
+                {%endif%}
+
+                {%endif%}
+
+
+            </tr>
+        {% endif %}
+        {% endfor %}
+
+            </table>
+
+            {% if user_type == "doctor"  %}
+            <input class="btn btn-info" name="Test_Results" type="submit" value="Add Test Results">
+            {%endif%}
+
+
+            <input class="btn btn-default" type="submit" name="back" value="Back">
+    </form>
+</div>
+
+{% endblock %}

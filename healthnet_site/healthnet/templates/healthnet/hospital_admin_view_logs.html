@@ -1,0 +1,34 @@
+{% extends 'healthnet/base.html' %}
+
+{% block main_content %}
+
+{% include "healthnet/header.html" %}
+
+<div id="hospital_admin_view_logs_container" class="panel panel-info col-md-6">
+    <div id="hospital_admin_view_logs_header" class="panel-heading">
+        <h1 class="panel-title">View Logs</h1>
+        <h3>Filters applied: {{filter}}</h3>
+    </div>
+    <br/>
+    <div id="hospital_admin_view_logs_logs">
+        {% if logs %}
+            <ul id="log_list">
+                {% for log in logs %}
+                    <li>{{log.username1}} {{log.activity}} {{log.username2}} at {{log.timestamp}}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <h2>There are no logs to display</h2>
+        {% endif %}
+    </div>
+
+    <div id="hospital_admin_view_logs_buttons">
+        <form method="post">
+            {% csrf_token %}
+            <input class="btn btn-default" type="submit" name="filter" value="Create Filters">
+            <input class="btn btn-default" type="submit" name="back" value="Back">
+        </form>
+    </div>
+</div>
+
+{% endblock %}

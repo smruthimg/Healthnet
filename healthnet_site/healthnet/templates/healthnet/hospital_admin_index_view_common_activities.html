@@ -1,0 +1,79 @@
+{% extends 'healthnet/base.html' %}
+
+{% block main_content %}
+
+{% include "healthnet/header.html" %}
+
+<div id="hospital_admin_index_view_common_activities_container" class="panel panel-info col-md-6">
+    <div id="hospital_admin_index_view_common_activities_header" class="panel-heading">
+        <h1 class="panel-title">Most Common Activities</h1>
+        <h3>{{start_date}} to {{end_date}}</h3>
+    </div>
+    <br/>
+    <div id="hospital_admin_index_view_common_activities_activities">
+        {% if total_number_of_activities %}
+            <h3>
+                The total number of activities for the timeframe selected is: {{total_number_of_activities}}
+            </h3>
+        {% else %}
+            <h3>No total number of activities.</h3>
+        {% endif %}
+
+        {% if most_common_activity %}
+            <h3>
+                The most common activity is: {{most_common_activity}} ({{number_of_most_common_activity}})
+                <br />
+                This is {{percent_of_most_common_activity}}% of all activities.
+            </h3>
+        {% else %}
+            <h3>No most common activity.</h3>
+        {% endif %}
+
+        {% if most_common_patient_activity %}
+            <h3>
+                The most common patient activity is: {{most_common_patient_activity}} ({{number_of_most_common_patient_activity}})
+                <br />
+                This is {{percent_of_most_common_patient_activity}}% of all activities.
+            </h3>
+        {% else %}
+            <h3>No most common patient activity.</h3>
+        {% endif %}
+
+        {% if most_common_nurse_activity %}
+            <h3>
+                The most common nurse activity is: {{most_common_nurse_activity}} ({{number_of_most_common_nurse_activity}})
+                <br />
+                This is {{percent_of_most_common_nurse_activity}}% of all activities.
+            </h3>
+        {% else %}
+            <h3>No most common nurse activity.</h3>
+        {% endif %}
+
+        {% if most_common_doctor_activity %}
+            <h3>
+                The most common doctor activity is: {{most_common_doctor_activity}} ({{number_of_most_common_doctor_activity}})
+                <br />
+                This is {{percent_of_most_common_doctor_activity}}% of all activities.
+            </h3>
+        {% else %}
+            <h3>No most common doctor activity.</h3>
+        {% endif %}
+
+        {% if most_common_admin_activity %}
+            <h3>
+                The most common admin activity is: {{most_common_admin_activity}} ({{number_of_most_common_admin_activity}})
+                <br />
+                This is {{percent_of_most_common_admin_activity}}% of all activities.
+            </h3>
+        {% else %}
+            <h3>No most common admin activity.</h3>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+            <input class="btn btn-default" type="submit" name="back-view" value="Back">
+        </form>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'healthnet/base.html' %}
+
+{% block main_content %}
+
+{% include "healthnet/header.html" %}
+
+<div id="view_appointment_container" class="panel panel-info col-md-6">
+    <div id="view_appointment_header" class="panel-heading"><h1 class="panel-title"> Appointment Details </h1></div><br/>
+    <table border="0" class="table table-bordered" id="view_appointment_table">
+        <tr class="warning">
+            <td>
+                <label>Doctor:</label>
+            </td>
+            <td>
+                {{ doctor }}
+            </td>
+        </tr>
+
+        <tr class="warning">
+            <td>
+                <label>Patient:</label>
+
+            </td>
+            <td>
+                {{ patient }}
+            </td>
+        </tr>
+
+        <tr class="warning">
+            <td>
+                <label>Start:</label>
+            </td>
+            <td>
+                {{ start }}
+            </td>
+        </tr>
+
+        <tr class="warning">
+            <td>
+                <label>End:</label>
+            </td>
+            <td>
+                {{ end }}
+            </td>
+        </tr>
+
+        <tr class="warning">
+            <td>
+                <label>Location:</label>
+            </td>
+            <td>
+                {{ location }}
+            </td>
+        </tr>
+    </table>
+    <br>
+    <div id="view_appointment_buttons">
+        <form method="post">
+            {% csrf_token %}
+            {% if user_type != "nurse" %}
+               <input class="btn btn-info" type="submit" name="delete" value="Delete">
+            {% endif %}
+
+            {% if can_edit %}
+                <input class="btn btn-info" type="submit" name="edit" value="Edit">
+            {% endif %}
+            <input class="btn btn-default" type="submit" name="back" value="Back to Calendar">
+        </form>
+    </div>
+</div>
+
+{% endblock %}

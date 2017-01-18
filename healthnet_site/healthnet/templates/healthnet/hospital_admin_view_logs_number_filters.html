@@ -1,0 +1,89 @@
+{% extends 'healthnet/base.html' %}
+
+{% block main_content %}
+
+{% include "healthnet/header.html" %}
+
+<div id="hospital_admin_view_logs_number_filters_container" class="panel panel-info col-md-6">
+    <div id="hospital_admin_view_logs_number_filters_header" class="panel-heading">
+        <h1 class="panel-title">Number Filters</h1>
+        <p>
+            Select the number of each type of filter you have selected.
+            For example: Choosing 1 will allow you to enter one of the type of filter.
+            If the type is Username, you will be able to filter using one username.
+            If you select more, you will be able to filter using that amount of usernames.
+            For example: 5 usernames will show the logs for all 5 usernames.
+        </p>
+    </div>
+    <br/>
+    <div id="hospital_admin_view_logs_number_filters_form">
+        <form method="post">
+            {% csrf_token %}
+
+            <table border="0" class="center">
+                {% if user_name != '' %}
+                <tr>
+                    <td>
+                        <label>Username:</label>
+                    </td>
+                    <td>
+                        <select name="user_name_number">
+                            <option>Select a number</option>
+                            {% if number_list %}
+                                {% for number in number_list %}
+                                    <option>{{ number }}</option>
+                                {% endfor %}
+                            {% endif %}
+                        </select>
+                    </td>
+                </tr>
+                {% endif %}
+            </table>
+
+            <table border="0" class="center">
+                {% if user_type != '' %}
+                <tr>
+                    <td>
+                        <label>User Type:</label>
+                    </td>
+                    <td>
+                        <select name="user_type_number">
+                            <option>Select a number</option>
+                            {% if number_list %}
+                                {% for number in number_list %}
+                                    <option>{{ number }}</option>
+                                {% endfor %}
+                            {% endif %}
+                        </select>
+                    </td>
+                </tr>
+                {% endif %}
+            </table>
+
+            <table border="0" class="center">
+                {% if action != '' %}
+                <tr>
+                    <td>
+                        <label>Action:</label>
+                    </td>
+                    <td>
+                        <select name="action_number">
+                            <option>Select a number</option>
+                            {% if number_list %}
+                                {% for number in number_list %}
+                                    <option>{{ number }}</option>
+                                {% endfor %}
+                            {% endif %}
+                        </select>
+                    </td>
+                </tr>
+                {% endif %}
+            </table>
+
+            <input class="btn btn-info" type="submit" name="submit_number" value="Submit">
+            <input class="btn btn-default" type="submit" name="back_number" value="Back">
+        </form>
+    </div>
+</div>
+
+{% endblock %}

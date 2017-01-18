@@ -1,0 +1,61 @@
+{% extends 'healthnet/base.html' %}
+
+{% block main_content %}
+
+{% include "healthnet/header.html" %}
+
+<div id="hospital_admin_view_system_prescription_container" class="panel panel-info col-md-6">
+    <div id="hospital_admin_view_system_prescription_header" class="panel-heading">
+        <h1 class="panel-title">Prescription Statistics</h1>
+        <p>
+            Select a medication and doctor you wish to see the statistical breakdown for.
+            If you wish to only do one, leave the other field blank.
+        </p>
+    </div>
+    <br/>
+    <div id="hospital_admin_view_system_prescription_information">
+        <table border="0" class="center">
+            <tr>
+                <td>
+                    <label>Medication:</label>
+                </td>
+                <td>
+                    <select name="medication">
+                        <option>Select a medication</option>
+                        {% if medication_list %}
+                            {% for medication in medication_list %}
+                                <option value="{{medication}}">{{ medication }}</option>
+                            {% endfor %}
+                        {% endif %}
+                    </select>
+                </td>
+            </tr>
+        </table>
+
+        <table border="0" class="center">
+            <tr>
+                <td>
+                    <label>Doctor:</label>
+                </td>
+                <td>
+                    <select name="doctor">
+                        <option>Select a doctor</option>
+                        {% if doctor_list %}
+                            {% for doctor in doctor_list %}
+                                <option value="{{doctor.id}}">{{ doctor }}</option>
+                            {% endfor %}
+                        {% endif %}
+                    </select>
+                </td>
+            </tr>
+        </table>
+
+        <form method="post">
+            {% csrf_token %}
+            <input class="btn btn-info" type="submit" name="submit_choose_type" value="Submit">
+            <input class="btn btn-default" type="submit" name="back_choose_type" value="Back">
+        </form>
+    </div>
+</div>
+
+{% endblock %}

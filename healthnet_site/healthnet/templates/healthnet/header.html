@@ -1,0 +1,68 @@
+{% load postman_tags %}
+{% postman_unread as unread_count %}
+
+{% with user_type=request.user.userprofile.user_type %}
+{% with user_id=request.user.id %}
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/healthnet/index"><i id="net_color" class="fa fa-heartbeat" aria-hidden="true"></i> HEALTH<span id="net_color">NET</span></a>
+    </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="/messages">Messages {% if unread_count %}({{ unread_count }}) {% endif %}</a></li>
+                {% if user_type == '' %}
+                <li><a href="/admin" target="_blank">Admin Console</a></li>
+                {% endif %}
+
+            </ul>
+            <ul class="nav navbar-nav"> {% if user_type == "patient" %}
+                <li><a href="/healthnet/edit_profile_information/{{user_id}}">View Profile Information</a></li>
+                <li><a href="/healthnet/change_password/{{user_id}}">Change Password</a></li>
+                <li><a href="/healthnet/appointments">Appointments</a></li>
+                {% endif %}
+
+                {% if user_type == "nurse" %}
+            </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="/healthnet/change_password/{{user_id}}">Change Password</a></li>
+                <li><a href="/healthnet/admit_patient">Admit Patient</a></li>
+                <li><a href="/healthnet/select_patient_update">Update Medical Info</a></li>
+                <li><a href="/healthnet/appointments">Appointments</a></li>
+                {% endif %}
+
+                {% if user_type == "doctor" %}
+            </ul>
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Patient Menu <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="/healthnet/admit_patient">Admit Patient</a></li>
+                    <li><a href="/healthnet/discharge_patient">Discharge Patient</a></li>
+                    <li><a href="/healthnet/transfer_patient">Transfer Patient</a></li>
+                    <li><a href="/healthnet/create_prescription">Create Prescription</a></li>
+                    <li><a href="/healthnet/remove_prescription">Remove Prescription</a></li>
+                    <li><a href="/healthnet/select_patient_update">Update Medical Info</a></li>
+                </ul>
+                </li>
+
+                <li><a href="/healthnet/change_password/{{user_id}}">Change Password</a></li>
+                <li><a href="/healthnet/appointments">Appointments</a></li>
+                {% endif %}
+
+                {% if user_type == "admin" %}
+                <li><a href="/healthnet/hospital_admin_index">Index</a></li>
+                {% endif %}
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            <li><a href="/healthnet/Logout" ><input class="btn btn-primary" type="button" value="Logout" id="header_logout"></a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<h4 id="welcome_header"><i class="fa fa-user" aria-hidden="true"></i> Welcome, {{request.user.username}}
+
+{% endwith %}
+{% endwith %}

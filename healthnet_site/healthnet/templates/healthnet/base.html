@@ -1,0 +1,23 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HealthNet</title>
+    <link rel="stylesheet" href="{% static 'healthnet/bootswatch.css' %}"/>
+    <link rel="stylesheet" href="{% static 'healthnet/bootstrap.css' %}"/>
+    <link rel="stylesheet" href="{% static 'healthnet/style.css' %}"/>
+    <link rel="stylesheet" href="{% static 'healthnet/css/font-awesome-4.7.0/css/font-awesome.min.css' %}"/>
+</head>
+<body>
+
+{% block main_content %}
+
+{% endblock %}
+    <script src="{% static 'healthnet/bootstrap.min.js' %}"></script>
+    <script src="{% static 'healthnet/bootstrap.js' %}"></script>
+</body>
+</html>

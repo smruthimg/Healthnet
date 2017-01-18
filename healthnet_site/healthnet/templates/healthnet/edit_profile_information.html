@@ -1,0 +1,141 @@
+{% extends 'healthnet/base.html' %}
+
+{% block main_content %}
+
+{% include "healthnet/header.html" %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/ui/1.12.0-beta.1/jquery-ui.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.1.135/jspdf.min.js"></script>
+<script type="text/javascript" src="http://cdn.uriit.ru/jsPDF/libs/adler32cs.js/adler32cs.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2014-11-29/FileSaver.min.js"></script>
+<script type="text/javascript" src="libs/Blob.js/BlobBuilder.js"></script>
+<script type="text/javascript" src="http://cdn.immex1.com/js/jspdf/plugins/jspdf.plugin.addimage.js"></script>
+<script type="text/javascript" src="http://cdn.immex1.com/js/jspdf/plugins/jspdf.plugin.standard_fonts_metrics.js"></script>
+<script type="text/javascript" src="http://cdn.immex1.com/js/jspdf/plugins/jspdf.plugin.split_text_to_size.js"></script>
+<script type="text/javascript" src="http://cdn.immex1.com/js/jspdf/plugins/jspdf.plugin.from_html.js"></script>
+<script type="text/javascript" src="js/basic.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+        var specialElementHandlers = {
+            '#export': function (element,renderer) {
+                return true;
+            }
+        };
+
+        $('#export').click(function () {
+            var doc = new jsPDF();
+            doc.fromHTML($('#target').html(), 15, 15, {
+                'width': 170,'elementHandlers': specialElementHandlers
+            });
+
+            doc.save('{{request.user.username}}-healthnet-info.pdf');
+        });
+    });
+</script>
+
+<div id="target">
+    <div id="edit_profile_information_container" class="panel panel-info col-md-6">
+        <div id="edit_profile_information_header" class="panel-heading">
+            <h1 class="panel-title">Profile Information</h1>
+            <h4>WARNING: The contents of the file downloaded if you export information is sensitive and confidential.</h4>
+        </div>
+        <br/>
+        <div id="edit_profile_information_information">
+            <form method="post">
+                {% csrf_token %}
+                <ul id="edit_profile_information_information_list">
+                    <li>Username: {{user.username}}</li>
+                    <li>First Name: {{first_name}}</li>
+                    <li>Last Name: {{last_name}}</li>
+                    <li>Email: {{user.email}}</li>
+                    <li>Contact Number: {{contact_number}}</li>
+                    <li>Emergency Contact Number: {{emergency_contact_number}}</li>
+                    <li>Address: {{address}}</li>
+                    <li>City: {{city}}</li>
+                    <li>State: {{state}}</li>
+                    <li>Zipcode: {{zipcode}}</li>
+                </ul>
+
+                <hr>
+
+                <div id="view_medical_information_header">
+                    <h1>Medical Information</h1>
+                </div>
+                <ul id="view_medical_information_information_list">
+                    <li>Preferred Hospital: {{preferred_hospital}}</li>
+                    <li>Current Hospital: {{current_hospital}}</li>
+                    <li>Insurance Company: {{insurance_company}}</li>
+                    <li>Insurance ID: {{insurance_id}}</li>
+                    <li>Age: {{age}} years</li>
+                    <li>Weight: {{weight}} pounds</li>
+                    <li>Height: {{height}} inches</li>
+                </ul>
+
+                <hr>
+
+                <div id="view_prescriptions_header">
+                    <h1>Prescriptions</h1>
+                </div>
+
+                <div id="view_prescriptions_prescriptions">
+                    {% if prescription_list %}
+                        {% for prescription in prescription_list %}
+                            <ul id="view_prescriptions_prescriptions_list">
+                                <li>Medication: {{prescription.medication}}</li>
+                                <li>Dosage: {{prescription.dosage}}</li>
+                                <li>Prescribed by: {{prescription.doctor}}</li>
+                                <li>Date Prescribed: {{prescription.date_prescribed}}</li>
+                            </ul>
+                        {% endfor %}
+                    {% else %}
+                        <h3>No Prescriptions.</h3>
+                    {% endif %}
+                </div>
+
+                <hr>
+
+                <div id="view_test_results_header">
+                    <h1>Test Results</h1>
+                </div>
+
+                <div id="view_test_results_test_results">
+                    {% if test_result_list %}
+                        <center>
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr class="info">
+                                        <td>Name</td>
+                                        <td>Result</td>
+                                        <td>Comments</td>
+                                        <td>Attachment</td>
+                                    </tr>
+                                </thead>
+                                {% for test_result in test_result_list %}
+                                    {% if test_result.released %}
+                                        <tr class="warning">
+                                            <td>{{test_result.name}}</td>
+                                            <td>{{test_result.results}}</td>
+                                            <td>{{test_result.comments}}</td>
+                                            <td><a href="{% url 'getAttachment' test_result.id %}" width="100" target="_blank"> File </a></td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </table>
+                        </center>
+                    {% else %}
+                        <h3>No Test Results.</h3>
+                    {% endif %}
+                </div>
+            <div id="edit_profile_button">
+                <input class="btn btn-info" type="submit" name="edit_info" value="Edit Profile Info">
+                <input class="btn btn-info" type="submit" name="export_info" value="Export Information" id="export">
+                <input class="btn btn-default" type="submit" name="cancel" value="Cancel">
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

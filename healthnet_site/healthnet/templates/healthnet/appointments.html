@@ -1,0 +1,52 @@
+{% extends 'healthnet/base.html' %}
+
+{% block main_content %}
+
+{% include "healthnet/header.html" %}
+
+<head>
+    <link rel='stylesheet' href="/static/healthnet/fullcalendar/fullcalendar.css" />
+    <script src="/static/healthnet/fullcalendar/lib/jquery.min.js"></script>
+    <script src="/static/healthnet/fullcalendar/lib/moment.min.js"></script>
+    <script src="/static/healthnet/fullcalendar/fullcalendar.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            // page is now ready, initialize the calendar
+            $('#calendar').fullCalendar({
+                customButtons: {
+                    createApptButton: {
+                        text: 'Create Appointment',
+                        click: function() {
+                            window.location = '/healthnet/create_appointment';
+                        }
+                    }
+                },
+                defaultDate: '{% now "Y-m-d" %}',
+                eventLimit: true, // allow "more" link when too many events
+                height: 650,
+                header: {
+                    left: {% if user_type != "nurse" %}'prev,next today createApptButton', {% else %}'createApptButton', {% endif %}
+                    center: 'title',
+                    right: '{% if user_type != "nurse" %}month,{% endif %} agendaWeek,agendaDay'
+                  },
+                  {% if user_type == 'nurse' %} defaultView: 'agendaWeek', {% endif %}
+                events: [
+                    {% for appt in json_data %}
+                        {
+                            title: '{{ appt.title }}',
+                            start: '{{ appt.start }}',
+                            end: '{{ appt.end }}',
+                            url: '/healthnet/view_appointment/{{ appt.id }}/'
+                        },
+                    {% endfor %}
+                ]
+
+            })
+        });
+    </script>
+</head>
+
+<div id="calendar" class="col-md-10"></div>
+
+{% endblock %}

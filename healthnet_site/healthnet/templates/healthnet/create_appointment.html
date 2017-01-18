@@ -1,0 +1,104 @@
+{% extends 'healthnet/base.html' %}
+
+{% block main_content %}
+
+{% include "healthnet/header.html" %}
+
+<div id="create_appointment_container" class="panel panel-info col-md-6">
+    <div id="create_appointment_header" class="panel-heading"><h1 class="panel-title"> Create Appointment </h1></div>
+    <br/>
+    <div id="create_appointment_form">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+            <table border="0" class="center">
+                {% if user.userprofile.user_type == 'nurse' or user.userprofile.user_type == 'patient'%}
+                <tr>
+                    <td>
+                        <label>Doctor:</label>
+                    </td>
+                    <td>
+                        <select name="doctor">
+                            <option value="None">Select a doctor</option>
+                            {% if doc_list %}
+                                {% for doctor in doc_list %}
+                                    <option value="{{doctor.id}}">{{ doctor }}</option>
+                                {% endfor %}
+                            {% endif %}
+                        </select>
+                    </td>
+                </tr>
+                {% endif %}
+
+                {% if user.userprofile.user_type == 'nurse' or user.userprofile.user_type == 'doctor' %}
+                <tr>
+                    <td>
+                        <label>Patient:</label>
+
+                    </td>
+                    <td>
+                        <select name="patient">
+                            <option value="None">Select a patient</option>
+                            {% if patient_list %}
+                                {% for patient in patient_list %}
+                                    {% if patient.id == patient_id %}
+                                        <option selected value="{{patient.id}}">{{ patient }}</option>
+                                    {% else %}
+                                        <option value="{{patient.id}}">{{ patient }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </select>
+                    </td>
+                </tr>
+                {% endif %}
+
+                <tr>
+                    <td>
+                        <label>Start Date/Time:</label>
+                    </td>
+                    <td>
+                        <input name="start" type="datetime-local" onchange="matchDates()" value="{{start}}">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <label>End Date/Time:</label>
+                    </td>
+                    <td>
+                        <input name="end" type="datetime-local" value="{{end}}">
+                    </td>
+                </tr>
+            </table>
+            <br>
+                {% if doc_conflict %}
+                    Doctor already has an appointment scheduled. Try a different time.<br>
+                {% elif patient_conflict %}
+                    Patient already has an appointment scheduled. Try a different time.<br>
+                {% elif invalid_date %}
+                    Your dates are invalid. You cannot create an appointment in the past, and the end time must be after the start time.<br>
+                {% endif %}
+            <input class="btn btn-info" name="create" type="submit">
+            <input class="btn btn-default" type="submit" name="back" value="Back to Calendar">
+        </form>
+    </div>
+</div>
+
+<script>
+    function matchDates(){
+        var startInput = document.getElementsByName("start")[0];
+        var endInput = document.getElementsByName("end")[0];
+
+        // default end timr to one hour after start time
+        endDate = new Date(startInput.value);
+        endDate.setHours(endDate.getHours()+1);
+        endDate = endDate.toISOString().substring(0,16);
+
+        endInput.value = endDate;
+    }
+</script>
+
+{% endblock %}

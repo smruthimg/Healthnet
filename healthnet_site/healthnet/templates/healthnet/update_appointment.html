@@ -1,0 +1,94 @@
+{% extends 'healthnet/base.html' %}
+
+{% block main_content %}
+
+{% include "healthnet/header.html" %}
+
+<div id="update_appointment_container" class="panel panel-info col-md-6">
+    <div id="update_appointment_header" class="panel-heading"><h1 class="panel-title"> Update Appointment </h1></div><br/>
+    <form method="post" id="create_appointment_form">
+        {% csrf_token %}
+
+        <table border="0" class="center" id="update_appointment_table">
+            {% if user.userprofile.user_type == 'nurse' or user.userprofile.user_type == 'patient'%}
+            <tr>
+                <td>
+                    <label>Doctor:</label>
+                </td>
+                <td>
+                    <select name="doctor" title="doctor">
+                        <option>Select a doctor</option>
+                        {% if doc_list %}
+                            {% for this_doc in doc_list %}
+                                {% if this_doc.id == doctor.id %}
+                                    <option selected value="{{this_doc.id}}">{{ doctor }}</option>
+                                {% else %}
+                                    <option value="{{this_doc.id}}">{{ this_doc }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </select>
+                </td>
+            </tr>
+            {% endif %}
+
+            {% if user.userprofile.user_type == 'nurse' or user.userprofile.user_type == 'doctor'%}
+            <tr>
+                <td>
+                    <label>Patient:</label>
+
+                </td>
+                <td>
+                    <select name="patient" title="patient">
+                        <option>Select a patient</option>
+                        {% if patient_list %}
+                            {% for this_patient in patient_list %}
+                                {% if this_patient.id == patient.id %}
+                                    <option selected value="{{this_patient.id}}">{{ patient }}</option>
+                                {% else %}
+                                    <option value="{{this_patient.id}}">{{ this_patient }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                   </select>
+                </td>
+            </tr>
+            {% endif %}
+
+            <tr>
+                <td>
+                    <label>Start:</label>
+                </td>
+                <td>
+                    <input name="start" type="datetime-local" value="{{start}}">
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label>End:</label>
+                </td>
+                <td>
+                    <input name="end" type="datetime-local" value="{{end}}">
+                </td>
+            </tr>
+        </table>
+        <br>
+
+        {% if doc_conflict %}
+            Doctor already has an appointment scheduled. Try a different time.<br>
+        {% elif patient_conflict %}
+            Patient already has an appointment scheduled. Try a different time.<br>
+        {% elif invalid_date %}
+            Your dates are invalid. The end time must occur after the start time.<br>
+        {% endif %}
+
+        <div id="update_appointment_buttons">
+
+            <input class="btn btn-info" name="update" type="submit" value="Submit">
+            <input class="btn btn-default" name="cancel" type="submit" value="Cancel">
+        </div>
+    </form>
+</div>
+
+{% endblock %}

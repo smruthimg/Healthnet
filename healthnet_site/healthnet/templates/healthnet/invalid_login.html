@@ -1,0 +1,18 @@
+{% extends 'healthnet/base.html' %}
+
+{% block main_content %}
+
+<div id="invalid_login_container" class="panel panel-info col-md-6">
+    <div id="invalid_login_information" class="panel-heading">
+        <p class="panel-title">The login details you provided are invalid.</p>
+    </div>
+    <br/>
+    <div id="invalid_login_back_button">
+        <form method="post">
+            {% csrf_token %}
+            <input class="btn btn-default" type="submit" name="back" value="Back to Login Page">
+        </form>
+    </div>
+</div>
+
+{% endblock %}

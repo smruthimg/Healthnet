@@ -1,0 +1,53 @@
+{% extends "postman/main_base.html" %}
+{% load i18n static %}{% load postman_tags %}
+{% block title %}{% trans "Messaging" %}{% endblock %}
+{% block extrahead %}{{ block.super }}
+
+{% load postman_tags %}
+
+<link type="text/css" media="all" rel="stylesheet" href="{% static 'postman/css/postman.css' %}" />
+{% endblock %}
+
+{% block postman_menu %}
+{% postman_unread as unread_count %}
+
+<div id="postman_menu" class="tabs">
+  {% if 'inbox' in request.get_full_path %}
+      <input type="radio" name="tabs" id="tabone" checked="checked" onclick="window.location='{% url 'postman:inbox' %}';">
+  {% else %}
+      <input type="radio" name="tabs" id="tabone" onclick="window.location='{% url 'postman:inbox' %}';">
+  {% endif %}
+
+  <label for="tabone">{% trans "Inbox" %}{% if unread_count %} <strong>({{ unread_count }})</strong>{% endif %}</label>
+
+
+  {% if 'sent' in request.get_full_path %}
+      <input type="radio" name="tabs" id="tabtwo" checked="checked" onclick="window.location='{% url 'postman:sent' %}';">
+  {% else %}
+      <input type="radio" name="tabs" id="tabtwo" onclick="window.location='{% url 'postman:sent' %}';">
+  {% endif %}
+  <label for="tabtwo">{% trans "Sent Messages" %}</label>
+
+  {% if 'write' in request.get_full_path %}
+      <input type="radio" name="tabs" id="tabthree" checked="checked" onclick="window.location='{% url 'postman:write' %}';">
+  {% else %}
+      <input type="radio" name="tabs" id="tabthree" onclick="window.location='{% url 'postman:write' %}';">
+  {% endif %}
+  <label for="tabthree">{% trans "Write" %}</label>
+
+ {% if 'archives' in request.get_full_path %}
+      <input type="radio" name="tabs" id="tabfour" checked="checked" onclick="window.location='{% url 'postman:archives' %}';">
+  {% else %}
+      <input type="radio" name="tabs" id="tabfour" onclick="window.location='{% url 'postman:archives' %}';">
+  {% endif %}
+  <label for="tabfour">{% trans "Archives" %}</label>
+
+ {% if 'trash' in request.get_full_path %}
+      <input type="radio" name="tabs" id="tabfive" checked="checked" onclick="window.location='{% url 'postman:trash' %}';">
+  {% else %}
+      <input type="radio" name="tabs" id="tabfive" onclick="window.location='{% url 'postman:trash' %}';">
+  {% endif %}
+  <label for="tabfive">{% trans "Trash" %}</label>
+</div>
+
+{% endblock %}

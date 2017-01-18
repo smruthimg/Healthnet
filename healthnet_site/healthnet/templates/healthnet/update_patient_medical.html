@@ -1,0 +1,76 @@
+{% extends 'healthnet/base.html' %}
+
+{% block main_content %}
+
+{% include "healthnet/header.html" %}
+
+<div id="create_appointment_container" class="panel panel-info col-md-6">
+    <div id="create_appointment_header" class="panel-heading"><h1 class="panel-title"> Update Medical Information </h1></div>
+    <br/>
+    <form id="create_appointment_form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <h2>Medical Information</h2>
+        {{ form.as_p }}
+        Current Hospital: {{patient.current_hospital}}
+
+        <hr>
+
+        <h2>Prescriptions</h2>
+
+        <div id="update_patient_medical_prescriptions">
+            {% if prescription_list %}
+                {% for prescription in prescription_list %}
+                    <ul id="update_patient_medical_prescriptions_list">
+                        <li>Medication: {{prescription.medication}}</li>
+                        <li>Dosage: {{prescription.dosage}}</li>
+                        <li>Prescribed by: {{prescription.doctor}}</li>
+                        <li>Date Prescribed: {{prescription.date_prescribed}}</li>
+                    </ul>
+                {% endfor %}
+            {% else %}
+                <h3>No Prescriptions.</h3>
+            {% endif %}
+        </div>
+
+        <hr>
+
+        <h2>Test Results</h2>
+
+        <div id="update_patient_medical_test_results">
+            {% if test_result_list %}
+            <center>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <td>Name</td>
+                            <td>Result</td>
+                            <td>Comments</td>
+                            <td>Attachment</td>
+                            <td>Action</td>
+                        </tr>
+                    </thead>
+                {% for test_result in test_result_list %}
+                    <tr class="warning">
+                        <td>{{test_result.name}}</td>
+                        <td>{{test_result.results}}</td>
+                        <td>{{test_result.comments}}</td>
+                        <td><a href="{% url 'getAttachment' test_result.id %}" width="100" target="_blank"> File </a></td>
+                        <td>{% if test_result.released == False %} <a href="/healthnet/release_results/{{test_result.id}}"><input type="button" name="release" value="Release"></a> {% else %} Released {% endif %}</td>
+                    </tr>
+                {% endfor %}
+                    </table>
+            </center>
+            {% else %}
+                <h3>No Test Results.</h3>
+            {% endif %}
+        </div>
+	        {% if  user_type == "doctor" %}
+                <input class="btn btn-info" name="Add_Test_Results" type="submit" value="Add Test Results">
+            {%endif%}
+        <input class="btn btn-info" name="update" type="submit">
+        <a href="/healthnet/index"><input class="btn btn-default" type="button" name="back" value="Cancel"></a>
+    </form>
+</div>
+
+{% endblock %}
